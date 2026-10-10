@@ -15,7 +15,6 @@ The pd.DataFrame should be saved into the variable df
 """
 
 import pandas as pd
-from string import ascii_uppercase
 
 
 dict = {

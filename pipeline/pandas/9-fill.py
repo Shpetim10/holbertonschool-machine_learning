@@ -14,6 +14,7 @@ Returns: the modified pd.DataFrame.
 
 
 def fill(df):
+    """Handle NaN columns"""
     # Drop Column Weighted Price
     df = df.drop(columns=["Weighted_Price"])
     # Fill Close with prev row value
