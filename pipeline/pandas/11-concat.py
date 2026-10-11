@@ -10,7 +10,6 @@ Concatenates the selected rows from df2 to the top of df1 (coinbase).
 Adds keys to the concatenated data, labeling the rows from df2 as bitstamp
 and the rows from df1 as coinbase.
 
-You should use index = __import__('10-index').index
 Returns the concatenated pd.DataFrame.
 """
 import pandas as pd

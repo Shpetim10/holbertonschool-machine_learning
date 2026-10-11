@@ -11,7 +11,6 @@ Adds keys to the data, labeling rows from df2 as bitstamp
 and rows from df1 as coinbase.
 
 Ensures the data is displayed in chronological order.
-You should use index = __import__('10-index').index.
 Returns: the concatenated pd.DataFrame.
 """
 import pandas as pd
