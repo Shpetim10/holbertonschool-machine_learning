@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Create a function to plot y as a line graph"""
+"""Line graph of the cubes of the integers 0 to 10."""
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def line():
-    """Plotting y as line graph"""
+    """Plot y = x^3 for x in 0..10 as a solid red line."""
     y = np.arange(0, 11) ** 3
     plt.figure(figsize=(6.4, 4.8))
 
-    # your code here
+    plt.plot(y, color='red', linestyle='-')
+    plt.xlim(0, 10)
+    plt.show()

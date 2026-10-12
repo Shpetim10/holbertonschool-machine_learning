@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-""""""
+"""Dashboard combining the five previous plots into one figure."""
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def all_in_one():
-    """"""
+    """Draw the line, scatter, C-14 decay, two-element decay and grade
+    histogram plots together in a 3x2 grid (histogram spans the last row)."""
     y0 = np.arange(0, 11) ** 3
 
     mean = [69, 0]
@@ -29,4 +30,51 @@ def all_in_one():
     np.random.seed(5)
     student_grades = np.random.normal(68, 15, 50)
 
-    # your code here
+    plt.figure(figsize=(10, 12))
+    plt.suptitle('All in One')
+
+    # Graph 1: Line graph
+    plt.subplot(3, 2, 1)
+    plt.plot(y0, 'r-')
+    plt.title('Line Graph', fontsize='x-small')
+    plt.xlabel('x', fontsize='x-small')
+    plt.ylabel('y', fontsize='x-small')
+
+    # Graph 2: Scatter plot
+    plt.subplot(3, 2, 2)
+    plt.scatter(x1, y1, c='m')
+    plt.title("Men's Height vs Weight", fontsize='x-small')
+    plt.xlabel('Height (in)', fontsize='x-small')
+    plt.ylabel('Weight (lbs)', fontsize='x-small')
+
+    # Graph 3: Exponential decay of C-14
+    plt.subplot(3, 2, 3)
+    plt.plot(x2, y2)
+    plt.yscale('log')
+    plt.xlim(0, 28650)
+    plt.title('Exponential Decay of C-14', fontsize='x-small')
+    plt.xlabel('Time (years)', fontsize='x-small')
+    plt.ylabel('Fraction Remaining', fontsize='x-small')
+
+    # Graph 4: Exponential decay of radioactive elements
+    plt.subplot(3, 2, 4)
+    plt.plot(x3, y31, 'r--', label='C-14')
+    plt.plot(x3, y32, 'g-', label='Ra-226')
+    plt.xlim(0, 20000)
+    plt.ylim(0, 1)
+    plt.title('Exponential Decay of Radioactive Elements',
+              fontsize='x-small')
+    plt.xlabel('Time (years)', fontsize='x-small')
+    plt.ylabel('Fraction Remaining', fontsize='x-small')
+    plt.legend(loc='upper right', fontsize='x-small')
+
+    # Graph 5: Histogram spanning two columns
+    plt.subplot2grid((3, 2), (2, 0), colspan=2)
+    plt.hist(student_grades, bins=np.arange(0, 101, 10),
+             edgecolor='black')
+    plt.title('Project A', fontsize='x-small')
+    plt.xlabel('Grades', fontsize='x-small')
+    plt.ylabel('Number of Students', fontsize='x-small')
+
+    plt.tight_layout()
+    plt.show()
