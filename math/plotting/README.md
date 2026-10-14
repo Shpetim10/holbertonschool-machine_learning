@@ -2,11 +2,13 @@
 
 A small collection of **Matplotlib** exercises that turns raw numbers into
 charts. Each task is one Python function that builds a single plot, going from
-a plain line graph up to a multi-plot dashboard and a stacked bar chart.
+a plain line graph up to a multi-plot dashboard and a stacked bar chart, plus
+two advanced tasks: a color-gradient scatter plot and a 3D PCA plot.
 
 If you have never used Matplotlib, this folder is a gentle tour of the
 most common chart types: **line, scatter, log-scale, multi-line, histogram,
-subplots and stacked bars**.
+subplots and stacked bars**, followed by a **gradient scatter** and a **3D PCA
+plot** in the advanced tasks.
 
 ---
 
@@ -16,8 +18,9 @@ subplots and stacked bars**.
 2. [How the repo is organised](#how-the-repo-is-organised)
 3. [How every plot is built](#how-every-plot-is-built)
 4. [The tasks](#the-tasks)
-5. [Concepts cheat-sheet](#concepts-cheat-sheet)
-6. [Requirements and style](#requirements-and-style)
+5. [Advanced tasks](#advanced-tasks)
+6. [Concepts cheat-sheet](#concepts-cheat-sheet)
+7. [Requirements and style](#requirements-and-style)
 
 ---
 
@@ -31,6 +34,8 @@ pip install numpy matplotlib
 cd math/plotting
 ./0-main.py        # opens a window with the line graph
 ./6-main.py        # opens a window with the stacked bar chart
+./100-main.py      # (advanced) opens the elevation gradient plot
+./101-pca.py       # (advanced) opens the 3D PCA plot (needs pca.npz)
 ```
 
 Or use a function straight from Python:
@@ -59,11 +64,14 @@ plotting/
 ├── 4-frequency.py       │
 ├── 5-all_in_one.py      │
 ├── 6-bars.py            ┘
+├── 100-gradient.py      Advanced: gradient scatter plot
+├── 101-pca.py           Advanced: 3D PCA plot (standalone script)
 │
 ├── 0-main.py            ┐
 ├── 1-main.py            │
 ├── ...                  │  Runners: import the function and call it
 ├── 6-main.py            ┘
+├── 100-main.py          Runner for task 100
 │
 ├── images/              Preview PNGs shown in this README
 └── README.md            You are here
@@ -78,12 +86,14 @@ plotting/
 | `4-frequency.py`    | `frequency()`    | `4-main.py` | Histogram             |
 | `5-all_in_one.py`   | `all_in_one()`   | `5-main.py` | 5 plots in one figure |
 | `6-bars.py`         | `bars()`         | `6-main.py` | Stacked bar chart     |
+| `100-gradient.py`   | `gradient()`     | `100-main.py` | Gradient scatter (advanced) |
+| `101-pca.py`        | *(script)*       | *(runs itself)* | 3D PCA scatter (advanced) |
 
 ---
 
 ## How every plot is built
 
-All seven functions follow the same recipe:
+The core functions (tasks 0–6) follow the same recipe:
 
 ```
  ┌───────────────┐    ┌───────────────┐    ┌───────────────┐    ┌───────────┐
@@ -184,6 +194,34 @@ Felicia** own. Each fruit is drawn on top of the previous one using the
 
 ---
 
+## Advanced tasks
+
+### 100. Gradient (advanced) — `100-gradient.py`
+
+Draws 2000 random `(x, y)` points as a scatter plot, colored by an
+**elevation** `z` that peaks at 40 m at the origin and drops with the distance
+from it, so the cloud looks like a mountain seen from above. `plt.colorbar()`
+adds the legend that maps each color to its elevation in meters.
+Run it with `./100-main.py`.
+
+### 101. PCA (advanced) — `101-pca.py`
+
+A standalone script (no function, no runner) that loads `pca.npz` (the Iris
+dataset: `data` and `labels`) and shows it in **3D** after **Principal
+Component Analysis**:
+
+```
+ data ──► subtract mean ──► SVD ──► keep first 3 axes ──► 3D scatter
+ (N x 4)   (center it)    (np.linalg.svd)  (Vh[:3].T)      colored by label
+```
+
+The four flower measurements are reduced to three principal components
+(`U1`, `U2`, `U3`), and each point is colored by species with the `plasma`
+colormap. Uses `mpl_toolkits.mplot3d` for the 3D axes. The `pca.npz` file is
+provided by the project and must be in the working directory.
+
+---
+
 ## Concepts cheat-sheet
 
 | Call                              | What it does                                      |
@@ -198,6 +236,9 @@ Felicia** own. Each fruit is drawn on top of the previous one using the
 | `plt.yscale('log')`               | Switches the y-axis to a logarithmic scale        |
 | `plt.legend()`                    | Shows the label of each drawn series              |
 | `plt.subplot(rows, cols, i)`      | Picks the i-th cell of a grid of plots            |
+| `plt.scatter(x, y, c=z)`          | Colors each dot by its `z` value                  |
+| `plt.colorbar()`                  | Adds a color-to-value legend                      |
+| `add_subplot(projection='3d')`    | Creates 3D axes                                   |
 | `plt.show()`                      | Displays the figure                               |
 
 Handy maths used along the way:
@@ -205,6 +246,8 @@ Handy maths used along the way:
 - **Cubes:** `np.arange(0, 11) ** 3`
 - **Exponential decay:** `y = exp((ln(0.5) / half_life) * t)` — the fraction of a
   substance left after time `t`.
+- **PCA:** center the data, run `np.linalg.svd`, then project onto the first
+  rows of `Vh` to keep the directions of greatest variance.
 - **Random data:** `np.random.seed(5)` fixes the "random" numbers so results
   are reproducible.
 
@@ -212,10 +255,11 @@ Handy maths used along the way:
 
 ## Requirements and style
 
-- Python 3 with `numpy` and `matplotlib` only
+- Python 3 with `numpy` and `matplotlib` only (`mpl_toolkits.mplot3d` ships with it)
 - Files start with `#!/usr/bin/env python3` and are executable
 - Code follows `pycodestyle` (max 79 characters per line)
-- Every module and function has a docstring
+- Every module and function has a docstring (task 101 is a plain script with
+  module-level comments)
 - Only `plt.show()` is used to display a plot; nothing is saved to disk by the
   task functions (the PNGs in `images/` were generated separately for this
   README)

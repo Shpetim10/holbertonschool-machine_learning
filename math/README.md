@@ -9,7 +9,7 @@ with charts.
 | Project | Topic | Exercises |
 | --- | --- | --- |
 | [`linear_algebra/`](linear_algebra/) | Vectors and matrices: slicing, shape, transpose, addition, concatenation, multiplication, first in pure Python, then with NumPy | 15 core tasks + 3 advanced |
-| [`plotting/`](plotting/) | Matplotlib charts: line, scatter, log scale, two lines, histogram, subplots, stacked bars | 7 tasks |
+| [`plotting/`](plotting/) | Matplotlib charts: line, scatter, log scale, two lines, histogram, subplots, stacked bars, plus advanced gradient scatter and 3D PCA | 7 core tasks + 2 advanced |
 
 ## How the two projects connect
 

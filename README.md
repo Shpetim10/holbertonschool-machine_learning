@@ -24,7 +24,7 @@ file with a function (or a short script) that solves one problem, plus a
 | Folder | What you learn | Main tools |
 | --- | --- | --- |
 | [`math/linear_algebra/`](math/linear_algebra/) | How matrices work: shape, transpose, add, concatenate, multiply, slice | pure Python, NumPy |
-| [`math/plotting/`](math/plotting/) | How to draw line, scatter, log-scale, histogram, subplot and stacked-bar charts | Matplotlib, NumPy |
+| [`math/plotting/`](math/plotting/) | How to draw line, scatter, log-scale, histogram, subplot and stacked-bar charts, plus advanced gradient and 3D PCA plots | Matplotlib, NumPy |
 | [`pipeline/pandas/`](pipeline/pandas/) | How to turn raw Bitcoin price data into clean, analysable tables | pandas, Matplotlib |
 
 Each folder has its own `README.md` with a file-by-file guide.
