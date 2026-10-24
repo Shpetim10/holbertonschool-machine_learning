@@ -18,6 +18,7 @@ file with a function (or a short script) that solves one problem, plus a
 │   └── plotting/              Charts and graphs with Matplotlib
 │
 └── pipeline/                  Getting data ready for models
+    ├── apis/                  Fetching data from REST APIs with requests
     └── pandas/                Loading, cleaning, reshaping data with pandas
 ```
 
@@ -25,6 +26,7 @@ file with a function (or a short script) that solves one problem, plus a
 | --- | --- | --- |
 | [`math/linear_algebra/`](math/linear_algebra/) | How matrices work: shape, transpose, add, concatenate, multiply, slice | pure Python, NumPy |
 | [`math/plotting/`](math/plotting/) | How to draw line, scatter, log-scale, histogram, subplot and stacked-bar charts, plus advanced gradient and 3D PCA plots | Matplotlib, NumPy |
+| [`pipeline/apis/`](pipeline/apis/) | How to fetch data from REST APIs: paginated results, linked resources, HTTP status codes and rate limits | requests |
 | [`pipeline/pandas/`](pipeline/pandas/) | How to turn raw Bitcoin price data into clean, analysable tables | pandas, Matplotlib |
 
 Each folder has its own `README.md` with a file-by-file guide.
@@ -47,7 +49,9 @@ Each folder has its own `README.md` with a file-by-file guide.
    matrices.
 2. **Plotting** makes that data visible, so patterns and mistakes are easy to
    spot.
-3. **Pipeline / pandas** handles real-world data: loading files, fixing missing
+3. **Pipeline / apis** collects real-world data from web APIs (SWAPI and
+   GitHub), following pagination and handling errors and rate limits.
+4. **Pipeline / pandas** handles real-world data: loading files, fixing missing
    values and reshaping tables before any model sees them.
 
 ---
@@ -60,7 +64,7 @@ git clone <repository-url>
 cd holbertonschool-projects-intranet
 
 # Install the libraries used across the projects
-pip install numpy matplotlib pandas
+pip install numpy matplotlib pandas requests
 
 # Run an exercise through its main file
 cd math/linear_algebra
