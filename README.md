@@ -17,9 +17,12 @@ file with a function (or a short script) that solves one problem, plus a
 │   ├── linear_algebra/        Vectors, matrices, slicing, NumPy
 │   └── plotting/              Charts and graphs with Matplotlib
 │
-└── pipeline/                  Getting data ready for models
-    ├── apis/                  Fetching data from REST APIs with requests
-    └── pandas/                Loading, cleaning, reshaping data with pandas
+├── pipeline/                  Getting data ready for models
+│   ├── apis/                  Fetching data from REST APIs with requests
+│   └── pandas/                Loading, cleaning, reshaping data with pandas
+│
+└── data_analysis/             Collecting data from the web
+    └── web_scraping/          Scraping pages with requests and BeautifulSoup
 ```
 
 | Folder | What you learn | Main tools |
@@ -28,6 +31,7 @@ file with a function (or a short script) that solves one problem, plus a
 | [`math/plotting/`](math/plotting/) | How to draw line, scatter, log-scale, histogram, subplot and stacked-bar charts, plus advanced gradient and 3D PCA plots | Matplotlib, NumPy |
 | [`pipeline/apis/`](pipeline/apis/) | How to fetch data from REST APIs: paginated results, linked resources, HTTP status codes and rate limits | requests |
 | [`pipeline/pandas/`](pipeline/pandas/) | How to turn raw Bitcoin price data into clean, analysable tables | pandas, Matplotlib |
+| [`data_analysis/web_scraping/`](data_analysis/web_scraping/) | How to scrape a website: fetch HTML, parse it with CSS selectors, follow pagination, use a JSON API, read JSON-LD and log in with a session | requests, BeautifulSoup |
 
 Each folder has its own `README.md` with a file-by-file guide.
 
@@ -53,6 +57,8 @@ Each folder has its own `README.md` with a file-by-file guide.
    GitHub), following pagination and handling errors and rate limits.
 4. **Pipeline / pandas** handles real-world data: loading files, fixing missing
    values and reshaping tables before any model sees them.
+5. **Data analysis / web_scraping** collects data from websites that have no
+   API: it fetches pages, parses the HTML and returns clean lists of records.
 
 ---
 
@@ -64,7 +70,7 @@ git clone <repository-url>
 cd holbertonschool-projects-intranet
 
 # Install the libraries used across the projects
-pip install numpy matplotlib pandas requests
+pip install numpy matplotlib pandas requests beautifulsoup4
 
 # Run an exercise through its main file
 cd math/linear_algebra
