@@ -3,7 +3,6 @@
 
 import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 
 
 def scrape_product_detail(url, delay=2.0):
@@ -30,17 +29,17 @@ def scrape_product_detail(url, delay=2.0):
         # the rating is the count of star icons, so find_elements is used
         return {
                 "title": driver.find_element(
-                    By.CSS_SELECTOR, ".caption h4.title"
+                    "css selector", ".caption h4.title"
                     ).text,
                 "price": driver.find_element(
-                    By.CSS_SELECTOR, ".caption h4.price"
+                    "css selector", ".caption h4.price"
                     ).text,
                 "description": driver.find_element(
-                    By.CSS_SELECTOR, ".caption p.description"
+                    "css selector", ".caption p.description"
                     ).text,
                 "rating": len(
                     driver.find_elements(
-                        By.CSS_SELECTOR, ".ratings .ws-icon-star"
+                        "css selector", ".ratings .ws-icon-star"
                         )
                     ),
             }
