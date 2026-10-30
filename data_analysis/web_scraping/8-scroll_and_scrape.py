@@ -25,29 +25,32 @@ def scroll_and_scrape(url, scroll_pause=2.0):
     try:
         driver.get(url)
 
-        # remember the height of the page before scrolling
-        last_height = driver.execute_script(
-            "return document.body.scrollHeight"
-        )
+        # remember how many products are on the page before scrolling
+        last_count = len(driver.find_elements(
+            "css selector", "div.thumbnail"
+        ))
 
-        # scroll to the bottom until the page height stops increasing
+        # scroll to the bottom until no more products are loaded
         while True:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);"
             )
 
-            # wait for the new products to load
-            time.sleep(scroll_pause)
+            # wait for new products, but stop waiting as soon as they appear
+            deadline = time.time() + scroll_pause
+            new_count = last_count
 
-            new_height = driver.execute_script(
-                "return document.body.scrollHeight"
-            )
+            while new_count == last_count and time.time() < deadline:
+                time.sleep(0.05)
+                new_count = len(driver.find_elements(
+                    "css selector", "div.thumbnail"
+                ))
 
-            # no new content was loaded, so every product is on the page
-            if new_height == last_height:
+            # nothing new within `scroll_pause`, so every product is loaded
+            if new_count == last_count:
                 break
 
-            last_height = new_height
+            last_count = new_count
 
         # read every product card now that the page is fully loaded
         cards = driver.find_elements(

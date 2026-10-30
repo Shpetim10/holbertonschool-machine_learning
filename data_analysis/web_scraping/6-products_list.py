@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Scrape the products of a static e-commerce category page."""
-
+import time
 from selenium import webdriver
 
 
