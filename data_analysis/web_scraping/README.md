@@ -1,21 +1,32 @@
 # Web Scraping
 
-Introductory exercises on collecting data from the web with Python 3, using the
-`requests` and `beautifulsoup4` modules. Every task scrapes quotes from
+Exercises on collecting data from the web with Python 3. Tasks 0–5 use the
+`requests` and `beautifulsoup4` modules to scrape quotes from
 [Quotes to Scrape](https://quotes.toscrape.com/), a site built for practising
-scraping, and returns them as a list of dicts:
+scraping, and return them as a list of dicts:
 
 ```python
 {"text": "...", "author": "...", "tags": ["...", "..."]}
 ```
 
+Tasks 6–8 use `selenium` (headless Chrome) to scrape laptops from the
+[Web Scraper test e-commerce site](https://webscraper.io/test-sites/e-commerce),
+and return products as dicts:
+
+```python
+{"title": "...", "price": "$...", "description": "...", "rating": 3}
+```
+
 ## Quick start
 
 ```bash
-pip install requests beautifulsoup4
+pip install requests beautifulsoup4 selenium
 cd data_analysis/web_scraping
 ./1-main.py            # every N-main.py runs the matching task
 ```
+
+Tasks 6–8 also need Google Chrome installed; Selenium starts it in headless
+mode (no window).
 
 Each exercise is a pair: `N-name.py` holds the solution and `N-main.py` is a
 small script that imports it (with `__import__`, because the file names start
@@ -31,11 +42,11 @@ with a digit) and prints the result. The scripts need an internet connection.
 | 3 | `3-scrape_via_api.py` | Done |
 | 4 | `4-extract_jsonld.py` | Done |
 | 5 | `5-login_and_scrape.py` | Done |
-| 6 | `6-products_list.py` | Not started |
-| 7 | `7-product_detail.py` | Not started |
-| 8 | `8-scroll_and_scrape.py` | Not started |
+| 6 | `6-products_list.py` | Done |
+| 7 | `7-product_detail.py` | Done |
+| 8 | `8-scroll_and_scrape.py` | Done |
 
-6 of 9 tasks implemented (tasks 0–5).
+All 9 tasks implemented (tasks 0–8).
 
 ## Files
 
@@ -53,6 +64,12 @@ with a digit) and prints the result. The scripts need an internet connection.
 | `4-main.py` | Test script for task 4: replaces `fetch_html` with a fake page, so no network is needed |
 | `5-login_and_scrape.py` | `login_and_scrape(login_url, user, pwd)`: logs in, then returns the quotes |
 | `5-main.py` | Test script for task 5: logs in with a test account and prints every quote |
+| `6-products_list.py` | `scrape_products(url)`: returns the products of a static category page; `scrape_products_list(url)` is the name `6-main.py` imports |
+| `6-main.py` | Test script for task 6: prints every laptop of the first page |
+| `7-product_detail.py` | `scrape_product_detail(url, delay=2.0)`: returns the details of one product page |
+| `7-main.py` | Test script for task 7: prints the details of product 32 |
+| `8-scroll_and_scrape.py` | `scroll_and_scrape(url, scroll_pause=2.0)`: scrolls an infinite-scroll page and returns its products |
+| `8-main.py` | Test script for task 8: prints every laptop of the scrolling page |
 
 ## How each task works
 
@@ -120,8 +137,48 @@ form contains a hidden `csrf_token` field, so the login page is fetched first
 and the token is sent back with the username and password. After the login the
 home page is requested with the same session and parsed like in task 1.
 
+### Task 6: drive a browser
+
+Some pages need a real browser, so `scrape_products` starts headless Chrome
+with Selenium (`--headless=new`, a fixed window size, `--no-sandbox`) and
+reads the page with CSS selectors:
+
+| Field | Selector |
+| --- | --- |
+| each product | `div.thumbnail` |
+| title | `a.title` (its `title` attribute holds the full name) |
+| price | `h4.price` |
+| description | `p.description` |
+| rating | `.ratings p[data-rating]` (the `data-rating` attribute, as an int) |
+
+The browser is closed in a `finally` block, so it quits even when a selector
+fails.
+
+### Task 7: one product page
+
+`scrape_product_detail` opens the page of a single product, waits `delay`
+seconds for it to render, and reads the title (`.caption h4.title`), price,
+description and rating. The rating is the number of `.ws-icon-star` icons
+inside `.ratings`, counted with `find_elements`.
+
+### Task 8: infinite scroll
+
+```
+ scroll to bottom ──► wait ──► page taller? ──► yes: scroll again
+                                     └────────► no: read all products
+```
+
+The page loads more products each time it is scrolled down. The scraper runs
+`window.scrollTo(0, document.body.scrollHeight)`, waits `scroll_pause`
+seconds, and compares the page height with the previous one. When the height
+stops growing everything is loaded, and the cards are read like in task 6.
+The rating is counted from the star icons (`.ratings p.ws-icon.ws-icon-star`),
+and a `(title, price)` key stored in a set makes sure no product is returned
+twice.
+
 ## Requirements and style
 
-- Python 3 with `requests` and `beautifulsoup4`
+- Python 3 with `requests`, `beautifulsoup4` (tasks 0–5) and `selenium`
+  with Google Chrome (tasks 6–8)
 - Files start with `#!/usr/bin/env python3` and are executable
 - Code follows `pycodestyle`; every module and function has a docstring

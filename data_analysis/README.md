@@ -7,7 +7,7 @@ web so it can be cleaned and analysed later.
 
 | Project | Topic | Exercises |
 | --- | --- | --- |
-| [`web_scraping/`](web_scraping/) | Scraping Quotes to Scrape with `requests` and `beautifulsoup4`: fetching HTML, CSS selectors, pagination, a JSON API, JSON-LD data and logging in with a session | 6 of 9 tasks done (0–5) |
+| [`web_scraping/`](web_scraping/) | Scraping with `requests` and `beautifulsoup4` (fetching HTML, CSS selectors, pagination, a JSON API, JSON-LD data, logging in with a session) and with `selenium` (headless Chrome, product pages, infinite scroll) | All 9 tasks done (0–8) |
 
 ## From the web to a dataset
 
@@ -21,11 +21,17 @@ Not all data comes in a file. When it lives on a website, a scraper collects it:
  └──────────┘   └──────────┘   └──────────┘   └──────────┘
 ```
 
+Pages that build their content with JavaScript (such as infinite scroll) are
+not in the HTML that `requests` downloads. For those, Selenium drives a real
+headless browser, so the page can be scrolled before it is read.
+
 The list of dicts returned by the scrapers can be loaded straight into a
 `pandas` DataFrame (see [`pipeline/pandas/`](../pipeline/pandas/)).
 
 ## Requirements
 
 ```bash
-pip install requests beautifulsoup4
+pip install requests beautifulsoup4 selenium
 ```
+
+Tasks 6–8 also need Google Chrome installed.
