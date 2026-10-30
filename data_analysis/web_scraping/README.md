@@ -174,7 +174,7 @@ product cards until it grows, waiting at most `scroll_pause` seconds. When no
 new card appears in that time everything is loaded, and the cards are read like
 in task 6. Polling instead of a fixed sleep keeps the run short (about 14s
 instead of 80s for this page).
-The rating is counted from the star icons (`.ratings p.ws-icon.ws-icon-star`),
+The rating is counted from the star icons (`.ratings span.ws-icon-star`),
 and a `(title, price)` key stored in a set makes sure no product is returned
 twice.
 

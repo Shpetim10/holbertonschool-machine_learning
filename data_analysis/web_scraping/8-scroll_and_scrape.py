@@ -75,7 +75,7 @@ def scroll_and_scrape(url, scroll_pause=2.0):
 
             rating = len(card.find_elements(
                 "css selector",
-                ".ratings p.ws-icon.ws-icon-star"
+                ".ratings span.ws-icon-star"
             ))
 
             # skip a product that was already added (same title and price)
