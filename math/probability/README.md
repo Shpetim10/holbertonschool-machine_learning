@@ -1,1 +1,120 @@
-Probability project
+# Probability
+
+Probability distributions written from scratch in Python 3, with no external
+libraries. Each distribution is a class that can be built in two ways: from
+its parameters, or estimated from a list of sample values. It then exposes the
+usual functions: the **PMF/PDF** (how likely one value is) and the **CDF**
+(how likely a value up to x is).
+
+| File | Class | Distribution | Tasks | Status |
+| --- | --- | --- | --- | --- |
+| `poisson.py` | `Poisson` | Poisson (discrete) | 0–2 | not started |
+| `exponential.py` | `Exponential` | Exponential (continuous) | 3–5 | not started |
+| `normal.py` | `Normal` | Normal / Gaussian (continuous) | 6–9 | done |
+| `binomial.py` | `Binomial` | Binomial (discrete) | 10–12 | not started |
+
+---
+
+## Quick start
+
+```bash
+pip install numpy      # only the main files use it, to generate sample data
+cd math/probability
+./6-main.py            # every N-main.py runs the matching task
+```
+
+Or use a class straight from Python:
+
+```python
+Normal = __import__('normal').Normal
+n = Normal(mean=70, stddev=10)
+print(n.cdf(90))
+```
+
+---
+
+## Normal distribution — `normal.py`
+
+The bell curve, described by its **mean** (μ, the centre) and its
+**standard deviation** (σ, the spread).
+
+```
+                 ▁▃▅▇█▇▅▃▁
+              ▁▃▅█████████▅▃▁
+         ▁▂▃▅▇███████████████▇▅▃▂▁
+ ───────┼───────┼───────┼───────┼───────┼──
+      μ-2σ    μ-σ       μ      μ+σ    μ+2σ
+```
+
+### 6. Initialize Normal — `Normal(data=None, mean=0., stddev=1.)`
+
+- Without `data`: uses the given `mean` and `stddev` (stored as floats).
+  Raises `ValueError("stddev must be a positive value")` if `stddev <= 0`.
+- With `data`: estimates both values from the sample.
+  - `TypeError("data must be a list")` if `data` is not a list.
+  - `ValueError("data must contain multiple values")` if it has fewer than
+    two values.
+  - `mean = sum(data) / n`
+  - `stddev = sqrt(sum((x - mean)²) / n)` — the **population** standard
+    deviation (divided by `n`, not `n - 1`).
+
+### 7. Normalize Normal — `z_score(x)` and `x_value(z)`
+
+The z-score says how many standard deviations a value is from the mean. The
+two methods are the inverse of each other.
+
+```
+ z_score(x) = (x - μ) / σ
+ x_value(z) = z · σ + μ
+```
+
+### 8. Normal PDF — `pdf(x)`
+
+```
+           1            -z² / 2
+ f(x) = ─────────── · e            with z = z_score(x)
+         σ · √(2π)
+```
+
+### 9. Normal CDF — `cdf(x)`
+
+The probability that a value is less than or equal to `x`:
+
+```
+ F(x) = ½ · (1 + erf(t))           with t = (x - μ) / (σ · √2)
+```
+
+`erf` has no closed form, so it is approximated with the first five terms of
+its Maclaurin series:
+
+```
+ erf(t) ≈ 2/√π · (t - t³/3 + t⁵/10 - t⁷/42 + t⁹/216)
+```
+
+The approximation is very good close to the mean and drifts as `|t|` grows,
+which is why the results differ slightly from SciPy's.
+
+### Expected output
+
+| Main file | Output |
+| --- | --- |
+| `6-main.py` | `Mean: 70.59808015534485 , Stddev: 10.078822447165797`<br>`Mean: 70.0 , Stddev: 10.0` |
+| `7-main.py` | `Z(90): 1.9250185174272068` / `X(2): 90.75572504967644`<br>`Z(90): 2.0` / `X(2): 90.0` |
+| `8-main.py` | `PSI(90): 0.006206096804434349`<br>`PSI(90): 0.005399096651147344` |
+| `9-main.py` | `PHI(90): 0.9829020110852376`<br>`PHI(90): 0.9922398930659416` |
+
+The first line of each pair comes from 100 random samples
+(`np.random.normal(70, 10, 100)` with seed 0), the second from
+`Normal(mean=70, stddev=10)`.
+
+---
+
+## Requirements and style
+
+- Python 3; the distribution classes compute everything by hand, and
+  constants such as π (`3.1415926536`) and e (`2.7182818285`) are written
+  out instead of taken from the `math` module
+- NumPy is only used by the `N-main.py` files to generate test data
+- Files start with `#!/usr/bin/env python3` and are executable
+- Code follows `pycodestyle` (max 79 characters per line)
+- Every module, class and method has a docstring

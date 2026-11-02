@@ -1,8 +1,8 @@
 # Math
 
 Holberton School math projects in Python 3. They cover the maths that machine
-learning is built on: how data is stored in matrices, and how to look at it
-with charts.
+learning is built on: how data is stored in matrices, how to look at it
+with charts, and how to describe its spread with probability distributions.
 
 ## Contents
 
@@ -10,6 +10,7 @@ with charts.
 | --- | --- | --- |
 | [`linear_algebra/`](linear_algebra/) | Vectors and matrices: slicing, shape, transpose, addition, concatenation, multiplication, first in pure Python, then with NumPy | 15 core tasks + 3 advanced |
 | [`plotting/`](plotting/) | Matplotlib charts: line, scatter, log scale, two lines, histogram, subplots, stacked bars, plus advanced gradient scatter and 3D PCA | 7 core tasks + 2 advanced |
+| [`probability/`](probability/) | Probability distributions from scratch: Poisson, Exponential, Normal and Binomial classes with PMF/PDF and CDF (Normal done so far) | 13 tasks (4 done) |
 
 ## How the two projects connect
 
@@ -30,6 +31,8 @@ The `plotting` exercises build their data with NumPy (`np.arange`,
 1. [`linear_algebra/`](linear_algebra/) — learn how matrices are stored and
    manipulated.
 2. [`plotting/`](plotting/) — turn arrays into pictures.
+3. [`probability/`](probability/) — describe how data is spread with
+   probability distributions.
 
 ## Requirements
 

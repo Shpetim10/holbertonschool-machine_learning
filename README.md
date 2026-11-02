@@ -15,7 +15,8 @@ file with a function (or a short script) that solves one problem, plus a
 .
 ├── math/                      Maths foundations for machine learning
 │   ├── linear_algebra/        Vectors, matrices, slicing, NumPy
-│   └── plotting/              Charts and graphs with Matplotlib
+│   ├── plotting/              Charts and graphs with Matplotlib
+│   └── probability/           Probability distributions from scratch
 │
 ├── pipeline/                  Getting data ready for models
 │   ├── apis/                  Fetching data from REST APIs with requests
@@ -29,6 +30,7 @@ file with a function (or a short script) that solves one problem, plus a
 | --- | --- | --- |
 | [`math/linear_algebra/`](math/linear_algebra/) | How matrices work: shape, transpose, add, concatenate, multiply, slice | pure Python, NumPy |
 | [`math/plotting/`](math/plotting/) | How to draw line, scatter, log-scale, histogram, subplot and stacked-bar charts, plus advanced gradient and 3D PCA plots | Matplotlib, NumPy |
+| [`math/probability/`](math/probability/) | How probability distributions work: Poisson, Exponential, Normal and Binomial classes with their PMF/PDF and CDF, written without libraries | pure Python |
 | [`pipeline/apis/`](pipeline/apis/) | How to fetch data from REST APIs: paginated results, linked resources, HTTP status codes and rate limits | requests |
 | [`pipeline/pandas/`](pipeline/pandas/) | How to turn raw Bitcoin price data into clean, analysable tables | pandas, Matplotlib |
 | [`data_analysis/web_scraping/`](data_analysis/web_scraping/) | How to scrape a website: fetch HTML, parse it with CSS selectors, follow pagination, use a JSON API, read JSON-LD, log in with a session, and drive headless Chrome for product pages and infinite scroll | requests, BeautifulSoup, Selenium |
