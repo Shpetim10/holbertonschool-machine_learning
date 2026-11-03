@@ -10,7 +10,7 @@ with charts, and how to describe its spread with probability distributions.
 | --- | --- | --- |
 | [`linear_algebra/`](linear_algebra/) | Vectors and matrices: slicing, shape, transpose, addition, concatenation, multiplication, first in pure Python, then with NumPy | 15 core tasks + 3 advanced |
 | [`plotting/`](plotting/) | Matplotlib charts: line, scatter, log scale, two lines, histogram, subplots, stacked bars, plus advanced gradient scatter and 3D PCA | 7 core tasks + 2 advanced |
-| [`probability/`](probability/) | Probability distributions from scratch: Poisson, Exponential, Normal and Binomial classes with PMF/PDF and CDF (Normal done so far) | 13 tasks (4 done) |
+| [`probability/`](probability/) | Probability distributions from scratch: Poisson, Exponential, Normal and Binomial classes with PMF/PDF and CDF (Poisson, Exponential and Normal done so far) | 13 tasks (10 done) |
 
 ## How the two projects connect
 

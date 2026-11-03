@@ -9,7 +9,7 @@ usual functions: the **PMF/PDF** (how likely one value is) and the **CDF**
 | File | Class | Distribution | Tasks | Status |
 | --- | --- | --- | --- | --- |
 | `poisson.py` | `Poisson` | Poisson (discrete) | 0–2 | done |
-| `exponential.py` | `Exponential` | Exponential (continuous) | 3–5 | not started |
+| `exponential.py` | `Exponential` | Exponential (continuous) | 3–5 | done |
 | `normal.py` | `Normal` | Normal / Gaussian (continuous) | 6–9 | done |
 | `binomial.py` | `Binomial` | Binomial (discrete) | 10–12 | not started |
 
@@ -86,6 +86,64 @@ The probability of `k` events or fewer, the sum of the PMF from 0 to `k`.
 The first line of each pair comes from 100 random samples
 (`np.random.poisson(5., 100)` with seed 0), the second from
 `Poisson(lambtha=5)`.
+
+---
+
+## Exponential distribution — `exponential.py`
+
+Measures the time you wait until the next event, when events happen
+independently at a constant average rate. It is described by one value,
+**lambtha** (λ), the number of events per unit of time. The mean waiting time
+is `1 / λ`.
+
+```
+ f(x)
+  │█
+  │██▇
+  │████▆▅
+  │███████▆▅▄▃▂▂▁
+  └──────────────────▶ x  (time)
+```
+
+### 3. Initialize Exponential — `Exponential(data=None, lambtha=1.)`
+
+- Without `data`: uses the given `lambtha` as it is.
+  Raises `ValueError("lambtha must be a positive value")` if `lambtha <= 0`.
+- With `data`: estimates `lambtha` from the sample.
+  - `TypeError("data must contain multiple values")` if `data` is not a list.
+  - `ValueError("data must contain multiple values")` if it has fewer than
+    two values.
+  - `lambtha = n / sum(data)` — the inverse of the mean of the data.
+
+### 4. Exponential PDF — `pdf(x)`
+
+The density of waiting exactly `x` time units. `x` is a time, so the result is
+`0` if `x < 0`.
+
+```
+ f(x) = λ · e^(-λx)
+```
+
+### 5. Exponential CDF — `cdf(x)`
+
+The probability of waiting `x` time units or less. The result is `0` if
+`x < 0`.
+
+```
+ F(x) = 1 - e^(-λx)
+```
+
+### Expected output
+
+| Main file | Output |
+| --- | --- |
+| `3-main.py` | `Lambtha: 2.177111473090695`<br>`Lambtha: 2` |
+| `4-main.py` | `f(1): 0.24681591903431552`<br>`f(1): 0.2706705664650693` |
+| `5-main.py` | `F(1): 0.8866314738197911`<br>`F(1): 0.8646647167674654` |
+
+The first line of each pair comes from 100 random samples
+(`np.random.exponential(0.5, 100)` with seed 0), the second from
+`Exponential(lambtha=2)`.
 
 ---
 
