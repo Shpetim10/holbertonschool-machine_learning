@@ -8,7 +8,7 @@ usual functions: the **PMF/PDF** (how likely one value is) and the **CDF**
 
 | File | Class | Distribution | Tasks | Status |
 | --- | --- | --- | --- | --- |
-| `poisson.py` | `Poisson` | Poisson (discrete) | 0–2 | not started |
+| `poisson.py` | `Poisson` | Poisson (discrete) | 0–2 | done |
 | `exponential.py` | `Exponential` | Exponential (continuous) | 3–5 | not started |
 | `normal.py` | `Normal` | Normal / Gaussian (continuous) | 6–9 | done |
 | `binomial.py` | `Binomial` | Binomial (discrete) | 10–12 | not started |
@@ -20,7 +20,7 @@ usual functions: the **PMF/PDF** (how likely one value is) and the **CDF**
 ```bash
 pip install numpy      # only the main files use it, to generate sample data
 cd math/probability
-./6-main.py            # every N-main.py runs the matching task
+./0-main.py            # every N-main.py runs the matching task
 ```
 
 Or use a class straight from Python:
@@ -30,6 +30,62 @@ Normal = __import__('normal').Normal
 n = Normal(mean=70, stddev=10)
 print(n.cdf(90))
 ```
+
+---
+
+## Poisson distribution — `poisson.py`
+
+Counts how many times an event happens in a fixed interval, when events occur
+independently at a constant average rate. It is described by one value,
+**lambtha** (λ), the expected number of events in the interval.
+
+```
+ P(k)
+  │   ▂▅▇█▇▅▃▂▁
+  │ ▂▅█████████▅▃▂▁
+  └──┴──┴──┴──┴──┴──┴──┴──▶ k  (number of events)
+     0  1  2  3  4  5  6  7
+```
+
+### 0. Initialize Poisson — `Poisson(data=None, lambtha=1.)`
+
+- Without `data`: uses the given `lambtha` (stored as a float).
+  Raises `ValueError("lambtha must be a positive value")` if `lambtha <= 0`.
+- With `data`: estimates `lambtha` from the sample.
+  - `TypeError("data must be a list")` if `data` is not a list.
+  - `ValueError("data must contain multiple values")` if it has fewer than
+    two values.
+  - `lambtha = sum(data) / n` — the mean of the data.
+
+### 1. Poisson PMF — `pmf(k)`
+
+The probability of exactly `k` events. `k` is turned into an integer first,
+and the result is `0` if `k < 0`.
+
+```
+ P(k) = λ^k · e^(-λ) / k!
+```
+
+### 2. Poisson CDF — `cdf(k)`
+
+The probability of `k` events or fewer, the sum of the PMF from 0 to `k`.
+`k` is turned into an integer first, and the result is `0` if `k < 0`.
+
+```
+ F(k) = e^(-λ) · Σ (i = 0 to k)  λ^i / i!
+```
+
+### Expected output
+
+| Main file | Output |
+| --- | --- |
+| `0-main.py` | `Lambtha: 4.84`<br>`Lambtha: 5.0` |
+| `1-main.py` | `P(9): 0.03175849616802446`<br>`P(9): 0.036265577412911795` |
+| `2-main.py` | `F(9): 0.9736102067423525`<br>`F(9): 0.968171942620861` |
+
+The first line of each pair comes from 100 random samples
+(`np.random.poisson(5., 100)` with seed 0), the second from
+`Poisson(lambtha=5)`.
 
 ---
 
