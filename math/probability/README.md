@@ -110,7 +110,7 @@ is `1 / λ`.
 - Without `data`: uses the given `lambtha` as it is.
   Raises `ValueError("lambtha must be a positive value")` if `lambtha <= 0`.
 - With `data`: estimates `lambtha` from the sample.
-  - `TypeError("data must contain multiple values")` if `data` is not a list.
+  - `TypeError("data must be a list")` if `data` is not a list.
   - `ValueError("data must contain multiple values")` if it has fewer than
     two values.
   - `lambtha = n / sum(data)` — the inverse of the mean of the data.
