@@ -11,7 +11,7 @@ usual functions: the **PMF/PDF** (how likely one value is) and the **CDF**
 | `poisson.py` | `Poisson` | Poisson (discrete) | 0–2 | done |
 | `exponential.py` | `Exponential` | Exponential (continuous) | 3–5 | done |
 | `normal.py` | `Normal` | Normal / Gaussian (continuous) | 6–9 | done |
-| `binomial.py` | `Binomial` | Binomial (discrete) | 10–12 | not started |
+| `binomial.py` | `Binomial` | Binomial (discrete) | 10–12 | done |
 
 ---
 
@@ -220,6 +220,79 @@ which is why the results differ slightly from SciPy's.
 The first line of each pair comes from 100 random samples
 (`np.random.normal(70, 10, 100)` with seed 0), the second from
 `Normal(mean=70, stddev=10)`.
+
+---
+
+## Binomial distribution — `binomial.py`
+
+Counts the number of successes in a fixed number of independent trials, when
+every trial has the same chance of success. It is described by two values:
+**n**, the number of trials, and **p**, the probability of success on each
+trial.
+
+```
+ P(k)
+  │          ▂▅█▇▄▂
+  │       ▂▅█████████▅▂
+  │    ▁▃▇██████████████▆▃▁
+  └──┴──┴──┴──┴──┴──┴──┴──┴──▶ k  (number of successes)
+     0                       n
+```
+
+### 10. Initialize Binomial — `Binomial(data=None, n=1, p=0.5)`
+
+- Without `data`: uses the given `n` (stored as an integer) and `p` (stored as
+  a float).
+  - `ValueError("n must be a positive value")` if `n <= 0`.
+  - `ValueError("p must be greater than 0 and less than 1")` if `p < 0` or
+    `p > 1`.
+- With `data`: estimates `n` and `p` from the sample.
+  - `TypeError("data must be a list")` if `data` is not a list.
+  - `ValueError("data must contain multiple values")` if it has fewer than
+    two values.
+  - A binomial has `mean = n·p` and `variance = n·p·(1 - p)`, so the sample
+    mean and (population) variance give:
+
+```
+ p = 1 - variance / mean
+ n = round(mean / p)          n must be a whole number of trials
+ p = mean / n                 recomputed so that n · p equals the mean
+```
+
+### 11. Binomial PMF — `pmf(k)`
+
+The probability of exactly `k` successes. `k` is turned into an integer
+first, and the result is `0` if `k < 0`.
+
+```
+ P(k) = C(n, k) · p^k · (1 - p)^(n - k)
+
+ C(n, k) = n! / ((n - k)! · k!)
+```
+
+### 12. Binomial CDF — `cdf(k)`
+
+The probability of `k` successes or fewer, the sum of the PMF from 0 to `k`.
+`k` is turned into an integer first, and the result is `0` if `k < 0`.
+
+```
+ F(k) = Σ (i = 0 to k)  C(n, i) · p^i · (1 - p)^(n - i)
+```
+
+The factorial used by both methods is written by hand in the `factorial(n)`
+method.
+
+### Expected output
+
+| Main file | Output |
+| --- | --- |
+| `10-main.py` | `n: 50 p: 0.606`<br>`n: 50 p: 0.6` |
+| `11-main.py` | `P(30): 0.11412829839570347`<br>`P(30): 0.114558552829524` |
+| `12-main.py` | `F(30): 0.5189392017296369`<br>`F(30): 0.5535236207894576` |
+
+The first line of each pair comes from 100 random samples
+(`np.random.binomial(50, 0.6, 100)` with seed 0), the second from
+`Binomial(n=50, p=0.6)`.
 
 ---
 
