@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-
+""""""
+import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-plot_missingness = __import__('1-plot_missingness').plot_missingness
 
 
-data = {
-    'customerID': ['A', 'B', 'C', 'A', 'D', 'E'],
-    'gender': ['Male', 'Female', np.nan, 'Male', 'Female', 'Male'],
-    'Partner': ['Yes', 'No', 'No', np.nan, 'Yes', None],
-    'tenure': [1, 24, 5, 1, 36, np.nan],
-    'TotalCharges': [29.85, 2138.40, np.nan, 29.85, 3803.40, 0],
-    'Churn': ['No', 'Yes', np.nan, 'No', None, 'No']
-}
-test_df = pd.DataFrame(data)
-print(test_df)
-plot_missingness(test_df)
+def plot_missingness(df):
+    """"""
+    plt.figure(figsize=(12, 8))
+
+    missing = df.isnull()
+
+    for col_idx, col_name in enumerate(df.columns):
+        rows = np.where(missing[col_name])[0]
+        plt.scatter(rows, [col_idx] * len(rows), marker='|')
+
+    plt.yticks(range(len(df.columns)), df.columns)
+
+    plt.tight_layout()
+    plt.show()
