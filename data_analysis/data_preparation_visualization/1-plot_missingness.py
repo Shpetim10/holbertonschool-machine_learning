@@ -22,11 +22,17 @@ def plot_missingness(df):
     # Boolean DataFrame: True where a value is missing (NaN)
     missing = df.isnull()
 
+    xs = []
+    ys = []
     for col_idx, col_name in enumerate(df.columns):
         # Row positions of the missing values in this column
         rows = np.where(missing[col_name])[0]
-        # Draw a tick for each one at the height of the column
-        plt.scatter(rows, [col_idx] * len(rows), marker='|')
+        xs.extend(rows)
+        ys.extend([col_idx] * len(rows))
+
+    # A single scatter call, so every tick gets the same default color
+    # (one call per column would cycle through the color palette)
+    plt.scatter(xs, ys, marker='|')
 
     # Label each height with its column name
     plt.yticks(range(len(df.columns)), df.columns)
