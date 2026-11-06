@@ -22,8 +22,9 @@ file with a function (or a short script) that solves one problem, plus a
 │   ├── apis/                  Fetching data from REST APIs with requests
 │   └── pandas/                Loading, cleaning, reshaping data with pandas
 │
-└── data_analysis/             Collecting data from the web
-    └── web_scraping/          Scraping pages with requests, BeautifulSoup, Selenium
+└── data_analysis/             Collecting, cleaning and preparing data
+    ├── web_scraping/          Scraping pages with requests, BeautifulSoup, Selenium
+    └── data_preparation_visualization/  Cleaning, plotting, testing and encoding churn data
 ```
 
 | Folder | What you learn | Main tools |
@@ -34,6 +35,7 @@ file with a function (or a short script) that solves one problem, plus a
 | [`pipeline/apis/`](pipeline/apis/) | How to fetch data from REST APIs: paginated results, linked resources, HTTP status codes and rate limits | requests |
 | [`pipeline/pandas/`](pipeline/pandas/) | How to turn raw Bitcoin price data into clean, analysable tables | pandas, Matplotlib |
 | [`data_analysis/web_scraping/`](data_analysis/web_scraping/) | How to scrape a website: fetch HTML, parse it with CSS selectors, follow pagination, use a JSON API, read JSON-LD, log in with a session, and drive headless Chrome for product pages and infinite scroll | requests, BeautifulSoup, Selenium |
+| [`data_analysis/data_preparation_visualization/`](data_analysis/data_preparation_visualization/) | How to prepare the Telco churn dataset for modeling: clean it, plot it, test features against churn (chi-square, Welch t-test), engineer and encode features, scale and split | pandas, SciPy, Matplotlib, seaborn, scikit-learn |
 
 Each folder has its own `README.md` with a file-by-file guide.
 
