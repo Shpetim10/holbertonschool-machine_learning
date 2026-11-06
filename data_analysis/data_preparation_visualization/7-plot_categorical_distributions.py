@@ -46,8 +46,6 @@ def plot_categorical_distributions(df, columns_to_plot=None):
 
         ax.bar(counts.index, counts.values)
         ax.set_title(column)
-        ax.set_xlabel(column)
-        ax.set_ylabel('Count')
         # Rotate labels so long category names do not overlap
         ax.tick_params(axis='x', rotation=45)
 

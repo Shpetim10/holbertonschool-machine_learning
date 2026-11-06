@@ -19,7 +19,8 @@ def plot_correlation_heatmap(df):
     """
     plt.figure(figsize=(6, 5))
 
-    # Keep numeric columns, then drop binary ones since correlation is meant for continuous features
+    # Keep numeric columns,
+    # then drop binary ones since correlation is meant for continuous features
     numeric = df.select_dtypes(include='number')
     continuous = [col for col in numeric.columns
                   if numeric[col].nunique() > 2]

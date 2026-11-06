@@ -34,7 +34,7 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     if n_cols == 0:
         return None
 
-    fig, axes = plt.subplots(n_cols, 2, figsize=(10, 3*n_cols))
+    fig, axes = plt.subplots(n_cols, 2, figsize=(15, 2.5 * n_cols))
 
     # With a single row subplots returns a 1D array; make it 2D so the
     # axes[i, j] indexing below works
