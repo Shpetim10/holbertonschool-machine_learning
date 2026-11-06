@@ -26,6 +26,6 @@ def ttest_numeric(df):
         _, p_value = stats.ttest_ind(
             churned[feature], retained[feature],
             equal_var=False, nan_policy="omit")
-        p_values[feature] = float(p_value)
+        p_values[feature] = p_value
 
     return p_values

@@ -19,7 +19,8 @@ def encode_features(df):
     Returns:
         tuple: (encoded DataFrame, fitted LabelEncoder for Churn, fitted
         OrdinalEncoder for the binary columns, fitted OrdinalEncoder for
-        TenureGroup).
+        TenureGroup). The binary encoder has one ['No', 'Yes'] category list
+        and is refit on each column in turn.
     """
     binary_cols = ["Partner", "Dependents", "PaperlessBilling",
                    "SeniorCitizen"]
@@ -28,10 +29,9 @@ def encode_features(df):
     churn_le = preprocessing.LabelEncoder()
     df_enc["Churn"] = churn_le.fit_transform(df_enc["Churn"])
 
-    binary_oe = preprocessing.OrdinalEncoder(
-        categories=[["No", "Yes"]] * len(binary_cols))
-    df_enc[binary_cols] = binary_oe.fit_transform(
-        df_enc[binary_cols]).astype(int)
+    binary_oe = preprocessing.OrdinalEncoder(categories=[["No", "Yes"]])
+    for col in binary_cols:
+        df_enc[[col]] = binary_oe.fit_transform(df_enc[[col]]).astype(int)
 
     tenure_oe = preprocessing.OrdinalEncoder()
     df_enc[["TenureGroup"]] = tenure_oe.fit_transform(
