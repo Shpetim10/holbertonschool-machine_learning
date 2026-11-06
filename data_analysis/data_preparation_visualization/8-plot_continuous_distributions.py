@@ -21,63 +21,43 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     Returns:
         None
     """
-    # Default to all numeric columns
+    # No columns given: use every numeric column. After cleaning,
+    # SeniorCitizen is categorical, so it is not selected here
     if columns_to_plot is None:
-        columns_to_plot = df.select_dtypes(
-            include=[np.number]
-        ).columns.tolist()
+        columns_to_plot = df.select_dtypes(include=[np.number]).columns
 
-    # One row per feature (the variable is named n_cols but counts features)
+    # One row of subplots per feature: histogram + KDE on the left,
+    # boxplot on the right (the variable counts features, not columns
+    # of the grid)
     n_cols = len(columns_to_plot)
+    fig, axes = plt.subplots(n_cols, 2, figsize=(10, 3*n_cols))
 
-    # Nothing to plot
-    if n_cols == 0:
-        return None
-
-    fig, axes = plt.subplots(n_cols, 2, figsize=(15, 2.5 * n_cols))
-
-    # With a single row subplots returns a 1D array; make it 2D so the
+    # With a single row, subplots returns a 1D array; make it 2D so the
     # axes[i, j] indexing below works
     if n_cols == 1:
         axes = axes.reshape(1, -1)
 
-    for i, column in enumerate(columns_to_plot):
-        # Drop missing values, which histogram/KDE/boxplot cannot handle
-        data = df[column].dropna()
+    for i, col in enumerate(columns_to_plot):
+        # Drop missing values, which hist, KDE and boxplot cannot handle
+        data = df[col].dropna()
 
-        # Histogram, normalized to density so it is comparable to the KDE
-        axes[i, 0].hist(
-            data,
-            bins=30,
-            density=True,
-            alpha=0.7,
-            edgecolor='black'
-        )
-
-        # KDE: smooth density estimate evaluated on 100 points over the
-        # data range
+        # Left: histogram normalized to density so the KDE curve shares
+        # its y-axis scale
+        axes[i, 0].hist(data, bins=30, density=True, alpha=0.7,
+                        edgecolor='black')
+        # Smooth density estimate, evaluated on 200 evenly spaced points
+        # between the min and max of the data
         kde = stats.gaussian_kde(data)
-        x = np.linspace(data.min(), data.max(), 100)
+        x = np.linspace(data.min(), data.max(), 200)
+        axes[i, 0].plot(x, kde(x), color='red', linestyle='--')
+        axes[i, 0].set_title(f"{col} Histogram + KDE")
 
-        axes[i, 0].plot(
-            x,
-            kde(x),
-            color='red',
-            linestyle='--'
-        )
+        # Right: horizontal boxplot showing median, quartiles and outliers
+        axes[i, 1].boxplot(data, vert=False)
+        axes[i, 1].set_title(f"{col} Boxplot")
 
-        axes[i, 0].set_title(f'{column} Histogram + KDE')
-
-        # Horizontal Boxplot
-        axes[i, 1].boxplot(
-            data,
-            vert=False
-        )
-
-        axes[i, 1].set_title(f'{column} Boxplot')
-
+    # Prevent titles and labels of neighboring subplots from overlapping
     plt.tight_layout()
+    # Save a copy of the figure, then display it
     plt.savefig("Task_8.png")
     plt.show()
-
-    return None
