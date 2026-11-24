@@ -3,7 +3,8 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
 Linear_Regression = __import__('0-linear_regression').Linear_Regression
-evaluation_metrics_for_regression = __import__('1-regression_evaluation_metrics').evaluation_metrics_for_regression
+evaluation_metrics_for_regression = __import__('1-regression_evaluation_metrics')\
+    .evaluation_metrics_for_regression
 
 
 np.random.seed(42)
